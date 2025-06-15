@@ -1,0 +1,12 @@
+# dependências
+node_modules/
+# vídeos, screenshots e relatórios do Cypress
+cypress/videos/
+cypress/screenshots/
+cypress/reports/
+cypress/downloads/
+# cobertura
+coverage/
+# arquivos temporários do SO/IDE
+*.log
+.DS_Store
