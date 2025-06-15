@@ -1,0 +1,71 @@
+name: Cypress CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: "0 0 * * *"  # every day at midnight (UTC)
+
+jobs:
+  smoke_tests:
+    # Run smoke suite on PRs and main branch pushes
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run smoke tests (Cypress @smoke)
+        env:
+          # Optional: environment variables for baseUrl or credentials can be set here
+          CYPRESS_baseUrl: "https://uphillhealth.com/uphillchallenge/desk?..."  # example base URL
+        run: npm run test:ci
+
+      - name: Upload smoke test artifacts
+        if: always()  # always run to capture artifacts even if tests fail
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-smoke-results
+          path: |
+            cypress/screenshots/
+            cypress/videos/
+
+  regression_tests:
+    # Run full regression suite on schedule (nightly)
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run full regression tests (all Cypress specs)
+        env:
+          CYPRESS_baseUrl: "https://uphillhealth.com/uphillchallenge/desk?..."
+        run: npm test  # runs all tests without tag filtering
+
+      - name: Upload regression artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-regression-results
+          path: |
+            cypress/screenshots/
+            cypress/videos/
