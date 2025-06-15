@@ -33,7 +33,7 @@ jobs:
 
       - name: Upload smoke test artifacts
         if: always()  # always run to capture artifacts even if tests fail
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-smoke-results
           path: |
@@ -63,7 +63,7 @@ jobs:
 
       - name: Upload regression artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-regression-results
           path: |
