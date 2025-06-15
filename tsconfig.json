@@ -1,0 +1,4 @@
+{
+  "extends": "cypress/tsconfig.json",
+  "compilerOptions": { "types": ["cypress", "@testing-library/cypress"] }
+}
