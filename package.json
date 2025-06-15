@@ -6,7 +6,7 @@
     "lint": "eslint . --ext .ts,.tsx",
     "test": "cypress open",
     "test:ci": "cypress run --env tags='@smoke'",
-    "postinstall": "cypress install"   
+    "postinstall": "cypress install"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
   "description": "",
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^22.1.0",
+    "@testing-library/cypress": "^10.0.3",
     "cypress": "^14.4.1",
     "esbuild": "^0.25.5",
     "typescript": "^5.8.3"
